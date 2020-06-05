@@ -11,7 +11,6 @@ import akka.actor.typed.ActorSystem;
 import akka.japi.function.Function;
 import akka.projection.Projection;
 import akka.projection.ProjectionId;
-import akka.projection.internal.ProjectionSettings;
 import akka.projection.RunningProjection;
 import akka.projection.StatusObserver;
 import akka.projection.internal.NoopStatusObserver;
@@ -199,12 +198,6 @@ public class ProjectionTestKitTest extends JUnitSuite {
         @Override
         public RunningProjection run(ActorSystem<?> system) {
             return new InternalProjectionState(strBuffer, predicate, system).newRunningInstance();
-        }
-
-        @Override
-        public Projection<Integer> withSettings(ProjectionSettings settings) {
-            // no need for ProjectionSettings in tests
-            return this;
         }
 
         @Override

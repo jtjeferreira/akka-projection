@@ -21,7 +21,6 @@ import akka.projection.ProjectionId
 import akka.projection.RunningProjection
 import akka.projection.StatusObserver
 import akka.projection.internal.NoopStatusObserver
-import akka.projection.internal.ProjectionSettings
 import akka.projection.internal.RestartBackoffSettings
 import akka.projection.internal.SettingsImpl
 import akka.projection.kafka.GroupOffsets
@@ -138,7 +137,6 @@ class KafkaSourceProviderImplSpec extends ScalaTestWithActorTestKit with LogCapt
     private lazy val internalState = new InternalProjectionState()
 
     override def projectionId: ProjectionId = ProjectionId("name", "key")
-    override def withSettings(settings: ProjectionSettings): TestProjection = this
     override def withRestartBackoffSettings(restartBackoff: RestartBackoffSettings): TestProjection = this
     override def withSaveOffset(afterEnvelopes: Int, afterDuration: FiniteDuration): TestProjection = this
     override def withGroup(groupAfterEnvelopes: Int, groupAfterDuration: FiniteDuration): TestProjection = this

@@ -18,8 +18,6 @@ import akka.annotation.ApiMayChange
 import akka.japi.function.Effect
 import akka.japi.function.Procedure
 import akka.projection.Projection
-import akka.projection.internal.ProjectionSettings
-import akka.projection.internal.RestartBackoffSettings
 import akka.stream.testkit.TestSubscriber
 import akka.stream.testkit.javadsl.TestSink
 import akka.util.JavaDurationConverters._
@@ -90,11 +88,9 @@ final class ProjectionTestKit private[akka] (testKit: ActorTestKit) {
 
     val probe = testKit.createTestProbe[Nothing]("internal-projection-testkit-probe")
 
-    val settingsForTest = ProjectionSettings(system).copy(RestartBackoffSettings(0.millis, 0.millis, 0.0, 0))
-
     val running =
       projection
-        .withSettings(settingsForTest)
+        .withRestartBackoff(0.millis, 0.millis, 0.0, 0)
         .run()(testKit.system)
 
     try {

@@ -16,7 +16,6 @@ import akka.projection.ProjectionId
 import akka.projection.RunningProjection
 import akka.projection.StatusObserver
 import akka.projection.internal.NoopStatusObserver
-import akka.projection.internal.ProjectionSettings
 import akka.projection.internal.RestartBackoffSettings
 import akka.projection.internal.SettingsImpl
 import akka.stream.DelayOverflowStrategy
@@ -139,9 +138,6 @@ class ProjectionTestKitSpec extends ScalaTestWithActorTestKit with AnyWordSpecLi
   private[akka] case class TestProjection(src: Source[Int, NotUsed], strBuffer: StringBuffer, predicate: Int => Boolean)
       extends Projection[Int]
       with SettingsImpl[TestProjection] {
-
-    override def withSettings(settings: ProjectionSettings): Projection[Int] =
-      this // no need for ProjectionSettings in tests
 
     override val statusObserver: StatusObserver[Int] = NoopStatusObserver
 

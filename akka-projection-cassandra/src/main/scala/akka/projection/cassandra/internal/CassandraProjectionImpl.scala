@@ -19,6 +19,8 @@ import akka.actor.typed.ActorSystem
 import akka.annotation.InternalApi
 import akka.event.Logging
 import akka.projection.HandlerRecoveryStrategy
+import akka.projection.OffsetVerification.VerificationFailure
+import akka.projection.OffsetVerification.VerificationSuccess
 import akka.projection.ProjectionId
 import akka.projection.ProjectionOffsetManagement
 import akka.projection.RunningProjection
@@ -28,14 +30,12 @@ import akka.projection.StrictRecoveryStrategy
 import akka.projection.cassandra.javadsl
 import akka.projection.cassandra.scaladsl
 import akka.projection.internal.HandlerRecoveryImpl
-import akka.projection.scaladsl.Handler
-import akka.projection.scaladsl.HandlerLifecycle
-import akka.projection.scaladsl.SourceProvider
-import akka.projection.OffsetVerification.VerificationFailure
-import akka.projection.OffsetVerification.VerificationSuccess
 import akka.projection.internal.ProjectionSettings
 import akka.projection.internal.RestartBackoffSettings
 import akka.projection.internal.SettingsImpl
+import akka.projection.scaladsl.Handler
+import akka.projection.scaladsl.HandlerLifecycle
+import akka.projection.scaladsl.SourceProvider
 import akka.stream.KillSwitches
 import akka.stream.SharedKillSwitch
 import akka.stream.scaladsl.Flow
@@ -112,9 +112,6 @@ import akka.stream.scaladsl.Source
       offsetStrategy,
       handlerStrategy,
       statusObserver)
-
-  override def withSettings(settings: ProjectionSettings): CassandraProjectionImpl[Offset, Envelope] =
-    copy(settingsOpt = Option(settings))
 
   override def withRestartBackoffSettings(
       restartBackoff: RestartBackoffSettings): CassandraProjectionImpl[Offset, Envelope] =
